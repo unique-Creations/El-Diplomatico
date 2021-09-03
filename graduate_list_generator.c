@@ -4,8 +4,11 @@
 #include <stdbool.h>
 
 //MACROS
-const int PASSING_GRADE = 50;
+#define PASSING_GRADE 50;
+
+//GLOBAL VARIABLES;
 int NUM_OF_STUDENTS;
+char TXT_TO_ARR[1000];
 
 //FUNCTION PROTOTYPES
 
@@ -46,10 +49,6 @@ int main( )
         scanf("%s", userCommand);
         processUserCommand(&userCommand);
     }
-    
-       
-
-    
     return 0;
 
 };
@@ -60,7 +59,6 @@ void processFile()
     FILE *fpOutFile;
     char fileName[30]; 
     char dataRead[1000];
-    //char dataWrite[1000];
     char outputFile[] = "Resources/output.txt";
     // Text file path to be added to file name.
     char path[60] = "Resources/"; 
@@ -82,12 +80,13 @@ void processFile()
     {   
         printf("%s", fileName);
         printf("\n\n");
-
+        int i = 0;
         // get data from fp's text file and print.
         while(fgets(dataRead, sizeof(dataRead), fp) != NULL)
         {
             printf("%s" , dataRead);
-            NUM_OF_STUDENTS++;
+            &TXT_TO_ARR[i] = dataRead;
+            
             if (fpOutFile == NULL)
             {
                 printf("\nOutput file failed to open."); 
@@ -97,8 +96,11 @@ void processFile()
             {
                 fprintf(fpOutFile,"%s", dataRead);
             }
+            NUM_OF_STUDENTS++;
+            i++;
         }
         NUM_OF_STUDENTS--;
+        printf("\ntxt array: %s", TXT_TO_ARR);
     }
     
     fclose(fp);
@@ -121,7 +123,7 @@ int processUserCommand(char *command)
     switch (*command)
     {
     case '1':
-        printf("one");
+        getPassingStudents();
         break;
     case '2':
         printf("two");
@@ -135,5 +137,9 @@ int processUserCommand(char *command)
     default:
         break;
     }
+    
+}
+getPassingStudents()
+{
     
 }
