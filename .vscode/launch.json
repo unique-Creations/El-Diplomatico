@@ -1,16 +1,15 @@
 {
   "version": "0.2.0",
   "configurations": [
-
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/Resources",
+      "cwd": "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico",
       "environment": [],
-      "program": "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/Resources/build/Debug/outDebug",
+      "program": "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/build/Debug/outDebug",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "lldb",
       "miDebuggerPath": "/usr/bin/lldb",
