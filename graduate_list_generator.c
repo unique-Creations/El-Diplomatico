@@ -8,7 +8,7 @@
 
 //GLOBAL VARIABLES;
 int NUM_OF_STUDENTS;
-char TXT_TO_ARR[1000];
+char TXT_TO_ARR[10][10];
 
 //FUNCTION PROTOTYPES
 
@@ -56,10 +56,10 @@ int main( )
 void processFile()
 {   
     FILE *fp;
-    FILE *fpOutFile;
+    FILE *outFp;
     char fileName[30]; 
     char dataRead[1000];
-    char outputFile[] = "Resources/output.txt";
+
     // Text file path to be added to file name.
     char path[60] = "Resources/"; 
 
@@ -67,9 +67,11 @@ void processFile()
     scanf("%s", fileName);
     strcat(path,fileName);
 
-    // Open file in read mode.
-    fp = fopen(path,"r");                                       
-    fpOutFile = fopen("Resources/output.txt","w");
+    // File pointer set to read mode.
+    fp = fopen(path,"r"); 
+
+    // Open output file in write mode.                                     
+    outFp = fopen("Resources/output.txt","w");
 
     if (fp == NULL)
     {
@@ -80,31 +82,38 @@ void processFile()
     {   
         printf("%s", fileName);
         printf("\n\n");
-        int i = 0;
         // get data from fp's text file and print.
         while(fgets(dataRead, sizeof(dataRead), fp) != NULL)
         {
             printf("%s" , dataRead);
-            &TXT_TO_ARR[i] = dataRead;
             
-            if (fpOutFile == NULL)
+            // Store to output file.
+            if (outFp == NULL)
             {
                 printf("\nOutput file failed to open."); 
                 exit(1);
             }
             else
             {
-                fprintf(fpOutFile,"%s", dataRead);
+                fprintf(outFp,"%s", dataRead);
             }
             NUM_OF_STUDENTS++;
-            i++;
+            //printf("\nCharacter array: %s", &outputArray);
         }
         NUM_OF_STUDENTS--;
-        printf("\ntxt array: %s", TXT_TO_ARR);
     }
+    // Char array to store text file data.
+    char outputArray[NUM_OF_STUDENTS][sizeof(*fp)]; 
+    int i = 0;
     
+    // Store read file into outputArray. 
+    while(fgets(outputArray[i], sizeof(*fp), fp))
+    {
+        outputArray[i][strlen(outputArray[i]) - 1] = '\0';
+        i++;
+    }
     fclose(fp);
-    fclose(fpOutFile);
+    fclose(outFp);
 }
 
 int processUserCommand(char *command)
@@ -120,6 +129,7 @@ int processUserCommand(char *command)
     {
         exit(0);
     }
+
     switch (*command)
     {
     case '1':
