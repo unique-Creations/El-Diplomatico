@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/LinkedList.h
+
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/graduate_list_generator.c
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+stdbool.h
+-
+LinkedList.h
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/LinkedList.h
+

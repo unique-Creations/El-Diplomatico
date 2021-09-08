@@ -1,0 +1,3 @@
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/El_Diplomatico.dir
