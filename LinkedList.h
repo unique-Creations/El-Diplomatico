@@ -9,22 +9,38 @@
         bool graduate
         struct Student *next
 */
-struct Student;
+typedef struct Student {
+    char name[32];
+    int studentNum;
+    float subA;
+    float subB;
+    bool graduate;
+    struct Student *next;
+}studentStruct;
+
 /*
     *allocate(void) 
     Allocate pointer memory of size struct Student.
     return: pointer memory
 */
-struct Student *allocate(void);
+studentStruct *allocate(void);
+
 /*
     appendStudent(struct Student student)
     Add Student to the end of the list.
     verifies if student meets graduate criteria.
 */
-void appendStudent(struct Student student);
+void appendStudent(studentStruct *student);
+
 /*
     dumpGradList(struct Student *s)
     Prints list of students meeting graduate criteria.
 */
-void dumpGradList(struct Student *s);
+void dumpGradList(studentStruct *s);
+
+/*
+ *
+ */
+studentStruct *getHead(void);
+
 #endif

@@ -4,20 +4,29 @@
 #include <stdbool.h>
 #include "LinkedList.h"
 
-struct Student *studLinkedList;
+studentStruct *student;
 //FUNCTION PROTOTYPES
 
 /*  processFile(): void
-    Scans user's file that is then opened, read, printed,
-    and copied to output.txt.
+ *  Scans user's file that is then opened, read, printed,
+ *  and copied to output.txt.
 */
 void processFile(int *numOfStudents);
 
 /*
-    processUserCommand(char *command): void
+ *  processUserCommand(char *command): void
 */
-void processUserCommand(char *command);
+void processUserCommand(const char *command);
 
+/*
+ *
+ */
+FILE *readFile(char s[]);
+
+/*
+ *
+ */
+FILE *writeFile(char s[]);
 
 int main() {
     char userCommand[1];
@@ -37,6 +46,7 @@ void processFile(int *numOfStudents) {
     FILE *outFp;
     char fileName[32];
     char dataRead[1000];
+
     // Text file path to be added to file name.s
     char path[60] = "Resources/";
 
@@ -45,66 +55,54 @@ void processFile(int *numOfStudents) {
     strcat(path, fileName);
 
     // File pointer set to read mode.
-    fp = fopen(path, "r");
-
+    fp = readFile(path);
     // Open output file in write mode.                                     
-    outFp = fopen("Resources/output.txt", "w");
+    outFp = writeFile("Resources/output.txt");
 
-    if (fp == NULL) {
-        printf("\nFile failed to open.");
-        exit(1);
-    } else {
-        printf("%s", fileName);
-        printf("\n\n");
-        // get data from fp's text file and print.
-        while (fgets(dataRead, 100, fp) != NULL) {
+    printf("%s", fileName);
+    printf("\n\n");
 
-            printf("%s", dataRead);
+    // get data from file pointer's text file and print.
+    while (fgets(dataRead, 100, fp) != NULL)
+    {
+        printf("%s", dataRead);
 
-            // Store to output file.
-            if (outFp == NULL) {
-                printf("\nOutput file failed to open.");
-                exit(1);
-            } else {
-                fprintf(outFp, "%s", dataRead);
-            }
+        // Iterate over characters of current line from file.
+        if (*numOfStudents > 0) {
+            char *cPtr;
+            cPtr = dataRead;
+            int i = 0;
 
-            // Iterate over characters of current line from file.
-            if (*numOfStudents > 0){
-                // Allocate new student struct for each student.
-                studLinkedList= allocate();
-                char *cPtr;
-                cPtr = dataRead;
-                int i = 0;
-                //TODO: Now that chars are accessible without spaces, store into struct.
-                while (*(cPtr + i) != '\n' ){
-                    if(*(cPtr + i) != ' ' && *(cPtr + i) != '\0') {
-                        printf("%c", *(cPtr + i));
-                    }
-                    ++i;
+            while (*(cPtr + i) != '\0') {
+                if (*(cPtr + i) != ' ' || *(cPtr + i - 1) != ' ') {
+                    // Store to output file.
+                    fprintf(outFp, "%c", *(cPtr + i));
                 }
-                for (int i = 0; i < strlen(dataRead); ++i) {
-
-                }
+                ++i;
             }
-            *numOfStudents = *numOfStudents + 1;
         }
-
+        *numOfStudents = *numOfStudents + 1;
     }
     *numOfStudents--;
-    rewind(fp);
-
-
-    // Store file content into array.
-    // Dump first line of file.
-    fgets(dataRead, 100, fp);
-    fgets(dataRead, 100, fp);
-
     fclose(fp);
     fclose(outFp);
+    fp = readFile("Resources/output.txt");
+
+    while (!feof(fp)){
+         student = allocate();
+        sscanf(fp, "%s %d %f %f",
+               student->name,
+               &student->studentNum,
+               &student->subA,
+               &student->subB);
+        appendStudent(student);
+        student = NULL;
+        fgets(dataRead, 200, fp);
+
+    }
 }
 
-void processUserCommand(char *command) {
+void processUserCommand(const char *command) {
     if (*command == 'h') {
         printf("\na/1 to obtain all the students that got diploma");
         printf("\nb/2 to arrange subject A in ascending order");
@@ -117,7 +115,7 @@ void processUserCommand(char *command) {
 
     switch (*command) {
         case '1':
-            dumpGradList(studLinkedList);
+            dumpGradList(getHead());
             break;
         case '2':
             printf("two");
@@ -132,4 +130,24 @@ void processUserCommand(char *command) {
             break;
     }
 
+}
+
+FILE *readFile(char s[]) {
+    FILE *p;
+    p = fopen(s, "r");
+    if (p == NULL) {
+        printf("\nFile failed to open.");
+        exit(1);
+    }
+    return (p);
+}
+
+FILE *writeFile(char s[]) {
+    FILE *p;
+    p = fopen(s, "w");
+    if (p == NULL) {
+        printf("\nFile failed to open.");
+        exit(1);
+    }
+    return (p);
 }
