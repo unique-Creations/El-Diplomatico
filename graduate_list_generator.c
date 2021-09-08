@@ -2,65 +2,46 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "LinkedList.h"
 
-//MACROS
-#define PASSING_GRADE 50;
-
-//GLOBAL VARIABLES;
-int NUM_OF_STUDENTS;
-char TXT_TO_ARR[10][10];
-
+struct Student *studLinkedList;
 //FUNCTION PROTOTYPES
 
 /*  processFile(): void
     Scans user's file that is then opened, read, printed,
     and copied to output.txt.
-    
-
 */
-void processFile();
+void processFile(int *numOfStudents, int *txtSize);
 
 /*
-    processUserCommand(char *command): int
+    processUserCommand(char *command): void
 */
-int processUserCommand(char *command);
+void processUserCommand(char *command);
 
-/*
-
-*/
-getPassingStudents();
-
-struct student
-{
-    char name;
-    int number;
-    float subA;
-    float subB;
-};
 
 int main( )
 {
     char userCommand[1];
-    processFile();
+    int txtsize = 0, numOfStudents = 0; 
+    processFile(&numOfStudents,&txtsize);
 
     while (1)
     {
         printf("\n\nPlease enter a command (enter h for help): ");
         scanf("%s", userCommand);
-        processUserCommand(&userCommand);
+        processUserCommand(userCommand);
     }
     return 0;
 
-};
+}
 
-void processFile()
+void processFile(int *numOfStudents, int *txtSize)
 {   
     FILE *fp;
     FILE *outFp;
     char fileName[30]; 
     char dataRead[1000];
-
-    // Text file path to be added to file name.
+    // Text file path to be added to file name.s
     char path[60] = "Resources/"; 
 
     printf("Please enter input file name: ");
@@ -83,10 +64,11 @@ void processFile()
         printf("%s", fileName);
         printf("\n\n");
         // get data from fp's text file and print.
-        while(fgets(dataRead, sizeof(dataRead), fp) != NULL)
+        while(fgets(dataRead, 1000, fp) != NULL)
         {
+            *txtSize++;
             printf("%s" , dataRead);
-            
+
             // Store to output file.
             if (outFp == NULL)
             {
@@ -97,26 +79,36 @@ void processFile()
             {
                 fprintf(outFp,"%s", dataRead);
             }
-            NUM_OF_STUDENTS++;
-            //printf("\nCharacter array: %s", &outputArray);
+            *numOfStudents++;
         }
-        NUM_OF_STUDENTS--;
+        *numOfStudents--;
     }
+    rewind(fp);
+
     // Char array to store text file data.
-    char outputArray[NUM_OF_STUDENTS][sizeof(*fp)]; 
-    int i = 0;
+    char *cPtr;
+    //cPtr = (char *)malloc(sizeof(char) * *txtSize);
+
+    // Store file content into array.
+    // Dump first line of file.
+    fgets(dataRead, 1000, fp);
+    fgets(dataRead, 1000, fp);
     
-    // Store read file into outputArray. 
-    while(fgets(outputArray[i], sizeof(*fp), fp))
+    //TODO: use pointer to store the char values somewhere.
+    for (int i = 0; i < 10; i++)
     {
-        outputArray[i][strlen(outputArray[i]) - 1] = '\0';
-        i++;
+        cPtr = &dataRead[i];
+        printf("\nptr %c", *cPtr);
+        cPtr++;
     }
+    
     fclose(fp);
     fclose(outFp);
+    //free(cPtr);
+    //cPtr = NULL;
 }
 
-int processUserCommand(char *command)
+void processUserCommand(char *command)
 {
       if (*command == 'h')
     {
@@ -133,7 +125,7 @@ int processUserCommand(char *command)
     switch (*command)
     {
     case '1':
-        getPassingStudents();
+        dumpGradList(studLinkedList);
         break;
     case '2':
         printf("two");
@@ -147,9 +139,5 @@ int processUserCommand(char *command)
     default:
         break;
     }
-    
-}
-getPassingStudents()
-{
     
 }
