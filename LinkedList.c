@@ -35,14 +35,18 @@ void appendStudent(studentStruct *student) {
     }
     // Verify if student meets graduation criteria.
     isGraduate(student);
-    //TODO: FIX BUG: can't use memmove
     if (head == NULL) {
-        memmove(head,student,sizeof(studentStruct));
+        head = student;
         //head = student;
         //current now points at head.
         current = head;
         //set head's next pointer to NULL.
         current->next = NULL;
+        printf("\nstudent added: %s %d %.2f %.2f",
+               student->name,
+               student->studentNum,
+               student->subA,
+               student->subB);
         return;
     }
     // Iterate till just before the NULL pointer.
@@ -50,17 +54,22 @@ void appendStudent(studentStruct *student) {
         current = current->next;
     }
     // Add allocated student struct to the end of the list.
-    memmove(current->next,student,sizeof(studentStruct));
+    current->next = student;
     current = current->next;
     current->next = NULL;
+    printf("\nstudent added: %s %d %.2f %.2f",
+           student->name,
+           student->studentNum,
+           student->subA,
+           student->subB);
 }
 
 void dumpGradList(studentStruct *s) {
-    printf("\nAll students recieving diploma:\n");
+    printf("\nAll students receiving diploma:\n");
     printf("STUDENT NAME  SUBJECT A   SUBJECT B\n");
     while (s != NULL) {
         if (s->graduate) {
-            printf("%s\t\t%.2f  \t%.2f\n",
+            printf("%s\t\t\t%.2f  \t%.2f\n",
                    s->name,
                    s->subA,
                    s->subB

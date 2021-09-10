@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "LinkedList.h"
 
-studentStruct *student;
+studentStruct student[50];
 //FUNCTION PROTOTYPES
 
 /*  processFile(): void
@@ -15,16 +15,25 @@ void processFile(int *numOfStudents);
 
 /*
  *  processUserCommand(char *command): void
+ *  Takes user's command chosen.
+ *  Executes action or function depending on command entered
+ *  from the options available.
 */
 void processUserCommand(const char *command);
 
 /*
- *
+ *  readFile(char s[]): FILE*
+ *  Takes string of path where file is located.
+ *  Opens file in read mode.
+ *  returns address of first line in file.
  */
 FILE *readFile(char s[]);
 
 /*
- *
+ *  writeFile(char s[]): FILE*
+ *  Takes string of path where file is located.
+ *  Opens file in write mode.
+ *  returns address of first line in file to write.
  */
 FILE *writeFile(char s[]);
 
@@ -86,20 +95,27 @@ void processFile(int *numOfStudents) {
     *numOfStudents--;
     fclose(fp);
     fclose(outFp);
+    fp = NULL;
+
+    // Open output.txt in reading mode
     fp = readFile("Resources/output.txt");
-
+    int i = 0;
+    studentStruct* ptr;
+    // Iterate output.txt
+    // Store into struct and add to linked list.d
     while (!feof(fp)){
-         student = allocate();
-        sscanf(fp, "%s %d %f %f",
-               student->name,
-               &student->studentNum,
-               &student->subA,
-               &student->subB);
-        appendStudent(student);
-        student = NULL;
-        fgets(dataRead, 200, fp);
+         ptr = &student[i];
 
+        fscanf(fp, "%s %d %f %f",
+               ptr->name,
+               &ptr->studentNum,
+               &ptr->subA,
+               &ptr->subB);
+        appendStudent(ptr);
+        fgets(dataRead, 200, fp);
+        i++;
     }
+    fclose(fp);
 }
 
 void processUserCommand(const char *command) {
