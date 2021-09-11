@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/LinkedList.c" "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/El_Diplomatico.dir/LinkedList.c.o"
-  "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/graduate_list_generator.c" "/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/El_Diplomatico.dir/graduate_list_generator.c.o"
+  "C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/LinkedList.c" "C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/El_Diplomatico.dir/LinkedList.c.obj"
+  "C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/graduate_list_generator.c" "C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/cmake-build-debug/CMakeFiles/El_Diplomatico.dir/graduate_list_generator.c.obj"
   )
-set(CMAKE_C_COMPILER_ID "AppleClang")
+set(CMAKE_C_COMPILER_ID "MSVC")
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH

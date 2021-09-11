@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/El_Diplomatico.dir/LinkedList.c.o"
-  "CMakeFiles/El_Diplomatico.dir/graduate_list_generator.c.o"
-  "El_Diplomatico"
+  "CMakeFiles/El_Diplomatico.dir/LinkedList.c.obj"
+  "CMakeFiles/El_Diplomatico.dir/graduate_list_generator.c.obj"
+  "El_Diplomatico.exe"
+  "El_Diplomatico.exe.manifest"
+  "El_Diplomatico.lib"
   "El_Diplomatico.pdb"
 )
 

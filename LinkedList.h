@@ -1,5 +1,6 @@
 #ifndef LinkedList_H
 #define LinkedList_H
+#include <stdbool.h>
 /*
     Student structure:
         char name[32]
@@ -26,7 +27,7 @@ typedef struct Student {
 studentStruct *allocate(void);
 
 /*
-    appendStudent(struct Student student)
+    appendStudent(studentStruct *student)
     Add Student to the end of the list.
     verifies if student meets graduate criteria.
 */
@@ -42,5 +43,9 @@ void dumpGradList(studentStruct *s);
  *
  */
 studentStruct *getHead(void);
+/*
+ *
+ */
+studentStruct *getAscHead(void);
 
 #endif

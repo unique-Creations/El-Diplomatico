@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/LinkedList.h
+C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/LinkedList.h
+stdbool.h
+-
 
-/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/graduate_list_generator.c
+C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/graduate_list_generator.c
 stdio.h
 -
 string.h
 -
 stdlib.h
 -
-stdbool.h
--
 LinkedList.h
-/Users/ernesto/Library/Mobile Documents/iCloud~com~getrocketbook~Rocketbook/Documents/CommunicationNetwork/El-Diplomatico/LinkedList.h
+C:/Users/Ernesto/iCloudDrive/iCloud~com~getrocketbook~Rocketbook/CommunicationNetwork/El-Diplomatico/LinkedList.h
 

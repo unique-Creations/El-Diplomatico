@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
 #include "LinkedList.h"
+
 //GLOBAL VARIABLE
 const float PASSING_GRADE = 50;
+int listSize;
 
-
-studentStruct *head, *current;
+studentStruct *head, *current, *ascendingHead;
 
 void isGraduate(studentStruct *s) {
     if (s->subA > (PASSING_GRADE - 1) && s->subB > PASSING_GRADE - 1) {
@@ -37,16 +37,11 @@ void appendStudent(studentStruct *student) {
     isGraduate(student);
     if (head == NULL) {
         head = student;
-        //head = student;
         //current now points at head.
         current = head;
         //set head's next pointer to NULL.
         current->next = NULL;
-        printf("\nstudent added: %s %d %.2f %.2f",
-               student->name,
-               student->studentNum,
-               student->subA,
-               student->subB);
+        listSize++;
         return;
     }
     // Iterate till just before the NULL pointer.
@@ -57,11 +52,7 @@ void appendStudent(studentStruct *student) {
     current->next = student;
     current = current->next;
     current->next = NULL;
-    printf("\nstudent added: %s %d %.2f %.2f",
-           student->name,
-           student->studentNum,
-           student->subA,
-           student->subB);
+    listSize++;
 }
 
 void dumpGradList(studentStruct *s) {
@@ -82,4 +73,8 @@ void dumpGradList(studentStruct *s) {
 
 studentStruct *getHead(void) {
     return (head);
+}
+
+studentStruct *getAscHead(void){
+    return (ascendingHead);
 }
