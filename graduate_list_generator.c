@@ -1,16 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "LinkedList.h"
 
 studentStruct student[50];
+
+//Global variables
+float MEAN_A, MEAN_B, SD_A, SD_B;
+int NUM_OF_STUDENTS = 0;
 //FUNCTION PROTOTYPES
 
 /*  processFile(): void
  *  Scans user's file that is then opened, read, printed,
  *  and copied to output.txt.
 */
-void processFile(int *numOfStudents);
+void processFile(void);
 
 /*
  *  processUserCommand(char *command): void
@@ -18,7 +23,7 @@ void processFile(int *numOfStudents);
  *  Executes action or function depending on command entered
  *  from the options available.
 */
-void processUserCommand(const char *command, int i);
+void processUserCommand(const char *command);
 
 /*
  *  readFile(char s[]): FILE*
@@ -35,31 +40,32 @@ FILE *readFile(char s[]);
  *  returns address of first line in file to write.
  */
 FILE *writeFile(char s[]);
-
 /*
  *
  */
-void sortSubA(studentStruct stud[], int i);
+void calculateSD(void);
+/*
+ *
+ */
+void calculateMean(float numA, float numB);
 
 int main() {
     char userCommand[1];
-    int numOfStudents = 0;
-    processFile(&numOfStudents);
-
+    processFile();
     while (1) {
         printf("\n\nPlease enter a command (enter h for help): ");
         scanf("%s", userCommand);
-        processUserCommand(userCommand, numOfStudents);
+        processUserCommand(userCommand);
     }
 
 }
 
-void processFile(int *numOfStudents) {
+void processFile(void) {
     FILE *fp;
     FILE *outFp;
     char fileName[32];
     char dataRead[1000];
-
+    float sumA, sumB;
     // Text file path to be added to file name.s
     char path[60] = "Resources/";
 
@@ -76,12 +82,11 @@ void processFile(int *numOfStudents) {
     printf("\n\n");
 
     // get data from file pointer's text file and print.
-    while (fgets(dataRead, 100, fp) != NULL)
-    {
+    while (fgets(dataRead, 100, fp) != NULL) {
         printf("%s", dataRead);
 
         // Iterate over characters of current line from file.
-        if (*numOfStudents > 0) {
+        if (NUM_OF_STUDENTS > 0) {
 
             char *cPtr;
             cPtr = dataRead;
@@ -96,9 +101,9 @@ void processFile(int *numOfStudents) {
 
             }
         }
-        *numOfStudents = *numOfStudents + 1;
+        NUM_OF_STUDENTS = NUM_OF_STUDENTS + 1;
     }
-    *numOfStudents = *numOfStudents -1;
+    NUM_OF_STUDENTS = NUM_OF_STUDENTS - 1;
     fclose(fp);
     fclose(outFp);
     fp = NULL;
@@ -106,11 +111,11 @@ void processFile(int *numOfStudents) {
     // Open output.txt in reading mode
     fp = readFile("Resources/output.txt");
     int i = 0;
-    studentStruct* ptr;
+    studentStruct *ptr;
     // Iterate output.txt
     // Store into struct and add to linked list.d
-    while (!feof(fp)){
-         ptr = &student[i];
+    while (!feof(fp)) {
+        ptr = &student[i];
 
         fscanf(fp, "%s %d %f %f",
                ptr->name,
@@ -118,13 +123,17 @@ void processFile(int *numOfStudents) {
                &ptr->subA,
                &ptr->subB);
         appendStudent(ptr);
+        sumA = sumA + ptr->subA;
+        sumB = sumB + ptr->subB;
         fgets(dataRead, 200, fp);
         i++;
     }
     fclose(fp);
+    calculateMean(sumA, sumB);
+    calculateSD();
 }
 
-void processUserCommand(const char *command, int i) {
+void processUserCommand(const char *command) {
     if (*command == 'h') {
         printf("\na/1 to obtain all the students that got diploma");
         printf("\nb/2 to arrange subject A in ascending order");
@@ -137,13 +146,17 @@ void processUserCommand(const char *command, int i) {
 
     switch (*command) {
         case '1':
-            dumpGradList(getHead());
+            dumpList(getHead(), 1);
             break;
         case '2':
-            sortSubA(student, i);
+            printf("Subject A in ascending order\n");
+            dumpList(getAscHead(), 0);
             break;
         case '3':
-            printf("three");
+            printf("Mean & Standard deviation results\n");
+            printf("\t\t\tMEAN\tSTANDARD DEVIATION\n");
+            printf("SUBJECT A:\t%.2f\t\t%.2f\n", MEAN_A,SD_A);
+            printf("SUBJECT B: \t%.2f\t\t%.2f\n", MEAN_B, SD_B);
             break;
         case '4':
             printf("four");
@@ -174,30 +187,23 @@ FILE *writeFile(char s[]) {
     return (p);
 }
 
-void sortSubA(studentStruct stud[], int i) {
-    studentStruct arr[50];
-    // Merge sort
-    if(i > 1){
-        int mid = i / 2;
-        int k = mid;
-        int j = i-1;
-        int r = i-1;
-
-        while( j >= mid){
-            arr[r--] = (k >= 0 && stud[k].subA > stud[j].subA) ? stud[k--] : stud[j--];
-        }
-
+void calculateSD(void){
+    float sumA, sumB, toRootA, toRootB;
+    float square = 2;
+    studentStruct *ptr;
+    ptr = student;
+    //Get the summation of the numerator for both A and B
+    for (int i = 0; i < NUM_OF_STUDENTS; i++) {
+        sumA = sumA + powf((ptr + i)->subA - MEAN_A, square);
+        sumB = sumB + powf((ptr + i)->subB - MEAN_B, square);
     }
-    printf("\nSubject A in ascending order\n");
-    printf("STUDENT NAME  SUBJECT A   SUBJECT B\n");
+    // square the summations divided by the population size.
+    // store into global standard deviation values.
+    SD_A = sqrtf(sumA / (float)NUM_OF_STUDENTS);
+    SD_B = sqrtf(sumB / (float)NUM_OF_STUDENTS);
+}
 
-    for(int j = 0; j < i; j++){
-        printf("%s\t\t%.2f  \t%.2f\n",
-               arr[j].name,
-               arr[j].subA,
-               arr[j].subB
-        );
-    }
-
-
+void calculateMean(float numA, float numB){
+     MEAN_A = (numA / (float)NUM_OF_STUDENTS);
+     MEAN_B = (numB / (float)NUM_OF_STUDENTS);
 }
