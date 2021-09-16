@@ -41,11 +41,15 @@ FILE *readFile(char s[]);
  */
 FILE *writeFile(char s[]);
 /*
- *
+ *  calculateSD(void)
+ *  Calculates the Standard Deviation of Subjects A & B
+ *  Saves result into global variables: SD_A & SD_B
  */
 void calculateSD(void);
 /*
- *
+ *  calculateMean(float numA, float numB)
+ *  Calculates the mean for subject A & B
+ *  Saves result into global variables: MEAN_A & MEAN_B
  */
 void calculateMean(float numA, float numB);
 
