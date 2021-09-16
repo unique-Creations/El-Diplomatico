@@ -1,6 +1,7 @@
 #ifndef LinkedList_H
 #define LinkedList_H
 #include <stdbool.h>
+
 /*
     Student structure:
         char name[32]

@@ -9,6 +9,7 @@ studentStruct student[50];
 //Global variables
 float MEAN_A, MEAN_B, SD_A, SD_B;
 int NUM_OF_STUDENTS = 0;
+int COMMAND_ARR[3];
 //FUNCTION PROTOTYPES
 
 /*  processFile(): void
@@ -40,12 +41,14 @@ FILE *readFile(char s[]);
  *  returns address of first line in file to write.
  */
 FILE *writeFile(char s[]);
+
 /*
  *  calculateSD(void)
  *  Calculates the Standard Deviation of Subjects A & B
  *  Saves result into global variables: SD_A & SD_B
  */
 void calculateSD(void);
+
 /*
  *  calculateMean(float numA, float numB)
  *  Calculates the mean for subject A & B
@@ -53,10 +56,18 @@ void calculateSD(void);
  */
 void calculateMean(float numA, float numB);
 
+/*
+ * saveResults(void)
+ * Save results to the output.txt file.
+ */
+void saveResults(void);
+
 int main() {
     char userCommand[1];
     processFile();
+
     while (1) {
+
         printf("\n\nPlease enter a command (enter h for help): ");
         scanf("%s", userCommand);
         processUserCommand(userCommand);
@@ -147,7 +158,6 @@ void processUserCommand(const char *command) {
     } else if (*command == 'e') {
         exit(0);
     }
-
     switch (*command) {
         case '1':
             dumpList(getHead(), 1);
@@ -159,11 +169,11 @@ void processUserCommand(const char *command) {
         case '3':
             printf("Mean & Standard deviation results\n");
             printf("\t\t\tMEAN\tSTANDARD DEVIATION\n");
-            printf("SUBJECT A:\t%.2f\t\t%.2f\n", MEAN_A,SD_A);
+            printf("SUBJECT A:\t%.2f\t\t%.2f\n", MEAN_A, SD_A);
             printf("SUBJECT B: \t%.2f\t\t%.2f\n", MEAN_B, SD_B);
             break;
         case '4':
-            printf("four");
+            saveResults();
             break;
         default:
             break;
@@ -191,7 +201,7 @@ FILE *writeFile(char s[]) {
     return (p);
 }
 
-void calculateSD(void){
+void calculateSD(void) {
     float sumA, sumB, toRootA, toRootB;
     float square = 2;
     studentStruct *ptr;
@@ -203,11 +213,94 @@ void calculateSD(void){
     }
     // square the summations divided by the population size.
     // store into global standard deviation values.
-    SD_A = sqrtf(sumA / (float)NUM_OF_STUDENTS);
-    SD_B = sqrtf(sumB / (float)NUM_OF_STUDENTS);
+    SD_A = sqrtf(sumA / (float) NUM_OF_STUDENTS);
+    SD_B = sqrtf(sumB / (float) NUM_OF_STUDENTS);
 }
 
-void calculateMean(float numA, float numB){
-     MEAN_A = (numA / (float)NUM_OF_STUDENTS);
-     MEAN_B = (numB / (float)NUM_OF_STUDENTS);
+void calculateMean(float numA, float numB) {
+    MEAN_A = (numA / (float) NUM_OF_STUDENTS);
+    MEAN_B = (numB / (float) NUM_OF_STUDENTS);
+}
+
+void saveResults(void) {
+    FILE *fPtr;
+    studentStruct *gradPtr, *ascPtr;
+    gradPtr = getHead();
+    ascPtr = getAscHead();
+    fPtr = writeFile("Resources/output.txt");
+    char data[1000];
+
+    // Store graduate students to output.txt
+    strcpy(data, "All students receiving diploma:\n");
+    fprintf(fPtr, "%s", data);
+    strcpy(data, "STUDENT NAME  SUBJECT A   SUBJECT B\n");
+    fprintf(fPtr, "%s", data);
+    int temp = 1;
+    while (temp <= NUM_OF_STUDENTS) {
+        if (gradPtr->graduate) {
+            strcpy(data, gradPtr->name);
+            fprintf(fPtr, "%s", data);
+            fprintf(fPtr, "%s", "\t\t\t");
+
+            gcvt(gradPtr->subA, 4, data);
+            fprintf(fPtr, "%s", data);
+            fprintf(fPtr, "%s", "\t\t\t");
+
+            gcvt(gradPtr->subB, 4, data);
+            fprintf(fPtr, "%s", data);
+            fprintf(fPtr, "%c", '\n');
+        }
+        gradPtr = gradPtr->next;
+        temp++;
+    }
+    // Store ascending students to output.txt
+    strcpy(data, "\nSubject A in ascending order:\n");
+    fprintf(fPtr, "%s", data);
+    strcpy(data, "STUDENT NAME  SUBJECT A   SUBJECT B\n");
+    fprintf(fPtr, "%s", data);
+
+    temp = 1;
+    while (temp <= NUM_OF_STUDENTS) {
+        strcpy(data, ascPtr->name);
+        fprintf(fPtr, "%s", data);
+        fprintf(fPtr, "%s", "\t\t\t");
+
+        gcvt(ascPtr->subA, 4, data);
+        fprintf(fPtr, "%s", data);
+        fprintf(fPtr, "%s", "\t\t\t");
+
+        gcvt(ascPtr->subB, 4, data);
+        fprintf(fPtr, "%s", data);
+        fprintf(fPtr, "%c", '\n');
+
+        if (ascPtr->next != NULL) ascPtr = ascPtr->next;
+        temp++;
+    }
+    // Store mean and standard deviation results to output.txt
+    strcpy(data, "Mean & Standard deviation results\n");
+    fprintf(fPtr, "%s", data);
+    strcpy(data, "\t\t\tMEAN\tSTANDARD DEVIATION\n");
+    fprintf(fPtr, "%s", data);
+
+    strcpy(data,"SUBJECT A:" );
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%c", '\t');
+    gcvt(MEAN_A, 4, data);
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%s", "\t\t");
+    gcvt(SD_A, 4, data);
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%c", '\n');
+
+    strcpy(data,"SUBJECT B:" );
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%c", '\t');
+    gcvt(MEAN_B, 4, data);
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%s", "\t\t");
+    gcvt(SD_B, 4, data);
+    fprintf(fPtr, "%s", data);
+    fprintf(fPtr, "%c", '\n');
+
+    fclose(fPtr);
 }

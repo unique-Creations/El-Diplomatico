@@ -114,7 +114,6 @@ void dumpList(studentStruct *s, int command) {
             s = s->next;
         }
     }
-
 }
 
 studentStruct *getHead(void) {
